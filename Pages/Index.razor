@@ -1,6 +1,34 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Home</PageTitle>
+
+<MudText Class="fw-bold"></MudText>
+<MudCarousel Style="height:500px;" TData="object">
+    <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Primary">
+		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/wood.png" Alt="Wood Logo" Class="mx-auto mt-auto rounded-lg"/>
+            <MudText Class="mx-auto fw-bold" Typo="Typo.h4"><b>Lumber Mill Application</b></MudText>
+            <MudText Class="mx-auto mb-5 font-italic" Style="font-style: italic" Typo="@Typo.body1">A Windows application that entered and tracked data related to lumber management.</MudText>
+            <MudButton Class="mx-auto mb-auto" Style="color: white !important; border-color: white !important;" 
+                Variant="@Variant.Outlined" Size="@Size.Large" OnClick=@(() => NavigationManager.NavigateTo("lumber"))>
+                Learn More
+            </MudButton>
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Secondary">
+		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/saw.png" Alt="Saw Logo" Class="mx-auto mt-auto rounded-lg"/>
+            <MudText Class="mx-auto mb-auto fw-bold" Typo="Typo.h4">Saw Vision</MudText>
+        </div>
+    </MudCarouselItem>
+    <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Tertiary">
+		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/toolbox.png" Alt="Toolbox Logo" Class="mx-auto mt-auto rounded-lg"/>
+            <MudText Class="mx-auto mb-auto fw-bold" Typo="Typo.h4">Lease Toolbox</MudText>
+        </div>
+    </MudCarouselItem>
+</MudCarousel>
 
 <MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
 <MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
