@@ -1,0 +1,15 @@
+﻿@inject IDialogService DialogService
+
+<MudIconButton Class="pa-0 mx-5" Icon="@Icons.Filled.RemoveRedEye" Color="@Color.Info" OnClick="OpenImageDialog"></MudIconButton>
+
+@code {
+    [Parameter] public string ImagePath { get; set; } = string.Empty;
+
+    private void OpenImageDialog()
+    {
+        var parameters = new DialogParameters {
+            { "Image", ImagePath }
+        };
+        DialogService.Show<ImageDialog>(string.Empty, parameters);
+    }
+}

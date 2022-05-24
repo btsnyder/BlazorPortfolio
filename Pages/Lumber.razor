@@ -1,14 +1,21 @@
 ﻿@page "/lumber"
-@inject IDialogService DialogService
 
 <PageTitle>Lumber Mill Application</PageTitle>
 
 <MudGrid>
     <MudItem xs="12">
         <MudPaper Class="d-flex align-center justify-center mud-width-full py-4 mud-theme-primary">
-            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="images/wood.png" Alt="Wood Logo" Class="me-10 rounded-lg"/>
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="images/wood.png" Alt="Wood Logo" Class="me-10"/>
             <MudText Typo="Typo.h3"><b>Lumber Mill Application</b></MudText>
         </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <div class="d-flex flex-wrap align-center justify-center">
+            @foreach (var tech in _technologies)
+            {
+                <MudChip>@tech</MudChip>
+            }
+        </div>
     </MudItem>
     <MudItem xs="12">
         <MudExpansionPanels>
@@ -16,7 +23,7 @@
                 <TitleContent>
                     <div class="d-flex" style="font-size: 2rem">
                         <b>Entering the Data</b>
-                        <MudIconButton Class="pa-0 mx-5" Icon="@Icons.Filled.RemoveRedEye" Color="@Color.Info" OnClick=@(() => OpenImageDialog("images/wood.png"))></MudIconButton>
+                        <ProjectViewButton ImagePath="images/TDSH.gif"/>
                     </div>
                 </TitleContent>
                 <ChildContent>
@@ -47,6 +54,7 @@
                 <TitleContent>
                     <div style="font-size: 2rem">
                         <b>Organizing the Data</b>
+                        <ProjectViewButton ImagePath="images/FEMT.gif"/>
                     </div>
                 </TitleContent>
                 <ChildContent>
@@ -68,11 +76,7 @@
 </MudGrid>
 
 @code {
-    private void OpenImageDialog(string img)
-    {
-        var parameters = new DialogParameters {
-            { "Image", img }
-        };
-        DialogService.Show<ImageDialog>(string.Empty, parameters);
-    }
+    private string[] _technologies = new string[] {
+        "C#", "Python", "NoSQL (Couchbase)", "Google Cloud Platform", "Xamarin", "UWP", "Auth0", "REST", ".NET Framework", "Jira", "GitHub"
+    };
 }

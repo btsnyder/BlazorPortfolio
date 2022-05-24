@@ -1,0 +1,51 @@
+﻿@page "/lease"
+
+<PageTitle>Lease Toolbox</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-4 mud-theme-tertiary">
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="images/toolbox.png" Alt="Toolbox Logo" Class="me-10"/>
+            <MudText Typo="Typo.h3"><b>Lease Toolbox</b></MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <div class="d-flex flex-wrap align-center justify-center">
+            @foreach (var tech in _technologies)
+            {
+                <MudChip>@tech</MudChip>
+            }
+        </div>
+    </MudItem>
+    <MudItem xs="12">
+        <MudExpansionPanels>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div class="d-flex" style="font-size: 2rem">
+                        <b>Combining Knowledge</b>
+                        <ProjectViewButton ImagePath="images/LeaseToolbox.gif"/>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    Thanks to my experiences on other projects, the development of this application went incredibly smooth. I was the sole developer for this project, so I decided to stick with what I knew. I built a Universal Windows Platform application, along with Auth0 to handle our authentication of the project. I was able to fully develop this application in a short amount of time due to my efficiency and drawing on previous knowledge. One of my favorite things as a programmer is when the code just flows and on this project that was the case.
+                </ChildContent>
+            </MudExpansionPanel>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div style="font-size: 2rem">
+                        <b>Learning New Things</b>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    The only thing that I had not experienced before was programming in XML. I had to create Excel worksheets from a UWP application, so it was critical that I understand how to translate that information. I enjoy learning new things, a trait that helps immensely when programming, so this was nothing too strenuous. It is always easier when there is good documentation on a topic. While in my earlier days, I tended to rely on StackOverflow, I have thankfully learned that when you need reliable information it is best to go directly to the source.
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private string[] _technologies = new string[] {
+        "C#", "UWP", "Auth0", "XML", "GitHub"
+    };
+}

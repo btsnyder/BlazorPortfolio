@@ -1,0 +1,62 @@
+﻿@page "/saw"
+
+<PageTitle>Saw Vision</PageTitle>
+
+<MudGrid>
+    <MudItem xs="12">
+        <MudPaper Class="d-flex align-center justify-center mud-width-full py-4 mud-theme-secondary">
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="images/saw.png" Alt="Saw Logo" Class="me-10"/>
+            <MudText Typo="Typo.h3"><b>Saw Vision</b></MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12">
+        <div class="d-flex flex-wrap align-center justify-center">
+            @foreach (var tech in _technologies)
+            {
+                <MudChip>@tech</MudChip>
+            }
+        </div>
+    </MudItem>
+    <MudItem xs="12">
+        <MudExpansionPanels>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div class="d-flex" style="font-size: 2rem">
+                        <b>Communicating with Machines</b>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    To capture the saw teeth, we needed to be able to move the saw, move the cameras, clean the saw, and present that information to the user. We worked with another company to build the hardware pieces, but we were solely responsible for the software side. As the sole developer on this project it was important to stay self-motivated and organized. We used a Revolution Pi (Industrial Raspberry Pi) to connect to our motors through serial communications. This maximized speed and reliability. We then used a NVIDIA Jetson Nano to process our images and manage the user interface. Not to mention that this was all done 100% remotely, as the machine is located in California. While the troubleshooting involved with this process was rigorous, the satisfaction is worth the effort when you can see (through webcam) an arm move on a machine from a command line call.
+                </ChildContent>
+            </MudExpansionPanel>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div style="font-size: 2rem">
+                        <b>Machine Vision</b>
+                        <ProjectViewButton ImagePath="images/SawVision1.gif"/>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    With the machine pieces working, it became important to capture saw teeth themselves. Using FLIR vision cameras, I created the interface necessary to communicate with these cameras and get the images needed to find the appropriate data in Python . This has given me a clear image (pun intended) of what a full cycle development process looks like. From an idea in someone’s head to real images on a screen, I was a part of the entire process. We now continue to work on performance improvements, working with the end users to create the most efficient machine we can.
+                </ChildContent>
+            </MudExpansionPanel>
+            <MudExpansionPanel>
+                <TitleContent>
+                    <div style="font-size: 2rem">
+                        <b>User Interface</b>
+                        <ProjectViewButton ImagePath="images/SawVision2.gif"/>
+                    </div>
+                </TitleContent>
+                <ChildContent>
+                    To allow for users to interact with the machine and give the necessary data for our initial dataset, it was vital that we create a user-friendly interface. To achieve this I used Python’s tkinter to create the interfaces. Being in the lumber industry, look was not as important to the user as functionality. It was my responsibility to discuss feature requests with the users. This included things like keyboard shortcuts and layout changes.
+                </ChildContent>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private string[] _technologies = new string[] {
+        "Python", "Firebase", "Labelbox", "OpenCV", "Machine Vision", "NoSQL", "GitHub"
+    };
+}

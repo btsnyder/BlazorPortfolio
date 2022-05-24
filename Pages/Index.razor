@@ -4,14 +4,17 @@
 <PageTitle>Home</PageTitle>
 
 <MudText Class="fw-bold"></MudText>
-<MudCarousel Style="height:500px;" TData="object">
+<MudCarousel Style=@($"height: {_projectHeight};") TData="object">
     <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Primary">
 		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
             <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/wood.png" Alt="Wood Logo" Class="mx-auto mt-auto rounded-lg"/>
-            <MudText Class="mx-auto fw-bold" Typo="Typo.h4"><b>Lumber Mill Application</b></MudText>
-            <MudText Class="mx-auto mb-5 font-italic" Style="font-style: italic" Typo="@Typo.body1">A Windows application that entered and tracked data related to lumber management.</MudText>
+            <MudText Class="mx-auto" Typo="@_titleSize"><b>Lumber Mill Application</b></MudText>
+            @if (_current > Breakpoint.Sm)
+            {
+                <MudText Class="mx-auto mb-5" Style="font-style: italic" Typo="@Typo.body1">A Windows application that entered and tracked data related to lumber management.</MudText>
+            }
             <MudButton Class="mx-auto mb-auto" Style="color: white !important; border-color: white !important;" 
-                Variant="@Variant.Outlined" Size="@Size.Large" OnClick=@(() => NavigationManager.NavigateTo("lumber"))>
+                Variant="@Variant.Outlined" Size="@Size.Large" Link="/lumber" Target="_self">
                 Learn More
             </MudButton>
         </div>
@@ -19,17 +22,79 @@
     <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Secondary">
 		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
             <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/saw.png" Alt="Saw Logo" Class="mx-auto mt-auto rounded-lg"/>
-            <MudText Class="mx-auto mb-auto fw-bold" Typo="Typo.h4">Saw Vision</MudText>
+            <MudText Class="mx-auto" Typo="@_titleSize"><b>Saw Vision</b></MudText>
+            @if (_current > Breakpoint.Sm)
+            {
+                <MudText Class="mx-auto mb-5" Style="font-style: italic" Typo="@Typo.body1">Leveraging machine learning and computer vision to analyze saw quality.</MudText>
+            }
+            <MudButton Class="mx-auto mb-auto" Style="color: white !important; border-color: white !important;" 
+                Variant="@Variant.Outlined" Size="@Size.Large" Link="/saw" Target="_self">
+                Learn More
+            </MudButton>
         </div>
     </MudCarouselItem>
     <MudCarouselItem Transition="@Transition.Fade" Color="@Color.Tertiary">
 		<div class="d-flex flex-column flex-column justify-center" style="height:100%">
             <MudImage ObjectFit="@ObjectFit.Cover" Height="200" Width="200" Src="images/toolbox.png" Alt="Toolbox Logo" Class="mx-auto mt-auto rounded-lg"/>
-            <MudText Class="mx-auto mb-auto fw-bold" Typo="Typo.h4">Lease Toolbox</MudText>
+            <MudText Class="mx-auto" Typo="@_titleSize"><b>Lease Toolbox</b></MudText>
+            @if (_current > Breakpoint.Sm)
+            {
+                <MudText Class="mx-auto mb-5" Style="font-style: italic" Typo="@Typo.body1">Providing straightforward interface to handle complex lease calculations.</MudText>
+            }
+            <MudButton Class="mx-auto mb-auto" Style="color: white !important; border-color: white !important;" 
+                Variant="@Variant.Outlined" Size="@Size.Large" Link="/lease" Target="_self">
+                Learn More
+            </MudButton>
         </div>
     </MudCarouselItem>
 </MudCarousel>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+@code {
+    private Guid _subscriptionId;
+    private Breakpoint _current;
+    private string _projectHeight;
+    private Typo _titleSize;
+
+    [Inject] IBreakpointService BreakpointListener { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _current = await BreakpointListener.GetBreakpoint();
+            UpdateView();
+
+            var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+            {
+                _current = breakpoint;
+                UpdateView();
+                InvokeAsync(StateHasChanged);
+            }, new ResizeOptions
+			{
+				ReportRate = 250,
+				NotifyOnBreakpointOnly = true,
+			});
+
+            _subscriptionId = subscriptionResult.SubscriptionId;
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void UpdateView()
+    {
+        if (_current <= Breakpoint.Sm)
+        {
+            _titleSize = Typo.h5;
+            _projectHeight = "400px";
+        }
+        else
+        {
+            _titleSize = Typo.h4;
+            _projectHeight = "500px";
+        }
+    }
+
+	public async ValueTask DisposeAsync() => await BreakpointListener.Unsubscribe(_subscriptionId);
+}

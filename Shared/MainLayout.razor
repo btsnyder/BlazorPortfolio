@@ -6,10 +6,13 @@
 
 <MudLayout>
     <MudAppBar Elevation="0">
+        <MudIconButton Icon="@Icons.Filled.Home" Class="me-3" Color="Color.Inherit" Link="/" Target="_self" />
         <MudText Typo="Typo.h4">BRANDON SNYDER</MudText>
-        <MudText Typo="Typo.subtitle1" Class="ms-5">software developer</MudText>
+        @if (_current >= Breakpoint.Sm)
+        {
+            <MudText Typo="Typo.subtitle1" Class="ms-5">software developer</MudText>
+        }
         <MudSpacer />
-        @*<MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Class="me-3" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />*@
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/btsnyder/" Target="_blank" />
     </MudAppBar>
     <MudMainContent>
@@ -20,6 +23,11 @@
 </MudLayout>
 
 @code {
+    private Guid _subscriptionId;
+    private Breakpoint _current;
+
+    [Inject] IBreakpointService BreakpointListener { get; set; }
+
     MudTheme MyCustomTheme = new MudTheme()
     {
         Typography = new Typography()
@@ -30,4 +38,27 @@
             }
         }
     };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+			{
+                _current = breakpoint;
+				InvokeAsync(StateHasChanged);
+			}, new ResizeOptions
+			{
+				ReportRate = 250,
+				NotifyOnBreakpointOnly = true,
+			});
+
+			_subscriptionId = subscriptionResult.SubscriptionId;
+			StateHasChanged();
+		}
+
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+	public async ValueTask DisposeAsync() => await BreakpointListener.Unsubscribe(_subscriptionId);
 }
