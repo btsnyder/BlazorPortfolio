@@ -1,19 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider Theme="MyCustomTheme"/>
+<MudThemeProvider @ref="@_mudThemeProvider" Theme="MyCustomTheme" @bind-IsDarkMode="@_isDarkMode"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Filled.Home" Class="me-3" Color="Color.Inherit" Link="/" Target="_self" />
-        <MudText Typo="Typo.h4">BRANDON SNYDER</MudText>
+        <MudText Typo=@(_current < Breakpoint.Sm ? Typo.h5 : Typo.h4)>BRANDON SNYDER</MudText>
         @if (_current >= Breakpoint.Sm)
         {
             <MudText Typo="Typo.subtitle1" Class="ms-5">software developer</MudText>
         }
         <MudSpacer />
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/btsnyder/" Target="_blank" />
+        <MudSwitch @bind-Checked="@_isDarkMode" ThumbIcon="@(_isDarkMode==true ? Icons.Material.Filled.ModeNight : Icons.Material.Filled.WbSunny)" ThumbIconColor="@(_isDarkMode==true ? Color.Dark : Color.Warning)"/>
     </MudAppBar>
     <MudMainContent>
         <MudContainer MaxWidth="MaxWidth.Large" Class="my-4 pt-4">
@@ -25,6 +26,8 @@
 @code {
     private Guid _subscriptionId;
     private Breakpoint _current;
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
 
     [Inject] IBreakpointService BreakpointListener { get; set; }
 
@@ -40,9 +43,11 @@
     };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
+    {
+        if (firstRender)
+        {
+            _current = await BreakpointListener.GetBreakpoint();
+
 			var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
 			{
                 _current = breakpoint;
@@ -54,6 +59,7 @@
 			});
 
 			_subscriptionId = subscriptionResult.SubscriptionId;
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
 			StateHasChanged();
 		}
 

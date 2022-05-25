@@ -2,81 +2,35 @@
 
 <PageTitle>Lumber Mill Application</PageTitle>
 
-<MudGrid>
-    <MudItem xs="12">
-        <MudPaper Class="d-flex align-center justify-center mud-width-full py-4 mud-theme-primary">
-            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="images/wood.png" Alt="Wood Logo" Class="me-10"/>
-            <MudText Typo="Typo.h3"><b>Lumber Mill Application</b></MudText>
-        </MudPaper>
-    </MudItem>
-    <MudItem xs="12">
-        <div class="d-flex flex-wrap align-center justify-center">
-            @foreach (var tech in _technologies)
-            {
-                <MudChip>@tech</MudChip>
-            }
-        </div>
-    </MudItem>
-    <MudItem xs="12">
-        <MudExpansionPanels>
-            <MudExpansionPanel>
-                <TitleContent>
-                    <div class="d-flex" style="font-size: 2rem">
-                        <b>Entering the Data</b>
-                        <ProjectViewButton ImagePath="images/TDSH.gif"/>
-                    </div>
-                </TitleContent>
-                <ChildContent>
-                    The methodology of scaling a log is a complicated process, but essentially log scalers enter information about the log, like length and diameter. This information is then used to determine how much of the log can be used. It was our job to create an application that could calculate this data in real time and store it in an efficient manner. We deployed this as a Universal Windows Platform application so that it would be accessible with the hardware they would need. I was responsible for building the UI for this application, debugging any issues, developing feature requests, and increasing performance. Since this was being used in a production environment, it was critical that I understood the issues users were experiencing and provide a timely solution.
-                </ChildContent>
-            </MudExpansionPanel>
-            <MudExpansionPanel>
-                <TitleContent>
-                    <div style="font-size: 2rem">
-                        <b>Storing the Data</b>
-                    </div>
-                </TitleContent>
-                <ChildContent>
-                    Since the information needed for log scaling can change drastically, we stored the data in a NoSQL database through Couchbase. This would allow us to update schemas as needed while still handling large volumes of data. I was tasked with building, deploying, and maintaining the database. Project owners would often have questions about data and it was my role to create the queries needed to provide the answer. Queries were also required for any changes to our data model that required updates to historical data, which I was responsible for writing.
-                </ChildContent>
-            </MudExpansionPanel>
-            <MudExpansionPanel>
-                <TitleContent>
-                    <div style="font-size: 2rem">
-                        <b>Accessing the Data</b>
-                    </div>
-                </TitleContent>
-                <ChildContent>
-                    Due to the nature of the production environment, we had to allow for offline entry of data that could then be synced later on. While Couchbase offers their Sync Gateway to handle this, we still had to implement our own merge strategies for data integrity. I took the steps necessary to deploy the Sync Gateway and make it available to all users. I did this through the Google Cloud Platform . To keep the application secure, I integrated the Sync Gateway with Auth0. I diagnosed and worked through any issues that arose in our syncing process.
-                </ChildContent>
-            </MudExpansionPanel>
-            <MudExpansionPanel>
-                <TitleContent>
-                    <div style="font-size: 2rem">
-                        <b>Organizing the Data</b>
-                        <ProjectViewButton ImagePath="images/FEMT.gif"/>
-                    </div>
-                </TitleContent>
-                <ChildContent>
-                    The information of the logs needed to be organized under different contracts, which required a separate application. This was built in Xamarin Forms to allow for the most flexibility in our deployment environment. Similar to the log entry application, I was responsible for building the UI for this application, debugging any issues, developing feature requests, and increasing performance. To track the bugs and feature requests, I initiated our use of Jira to manage communication between the clients.
-                </ChildContent>
-            </MudExpansionPanel>
-            <MudExpansionPanel>
-                <TitleContent>
-                    <div style="font-size: 2rem">
-                        <b>Testing the Data</b>
-                    </div>
-                </TitleContent>
-                <ChildContent>
-                    The rules of log scaling have existed for quite some time. To ensure that our program followed those same standards, the auditing process for these applications had to be robust. I created and reported on unit tests involved with our calculations for log scaling and for our own applications stability.
-                </ChildContent>
-            </MudExpansionPanel>
-        </MudExpansionPanels>
-    </MudItem>
-</MudGrid>
+<ProjectPage Title="Lumber Mill Application" LogoPath="images/wood.png"
+    Details="@_details" Technologies="@_technologies"/>
 
 @code {
     private string[] _technologies = new string[] {
         "C#", "Python", "NoSQL (Couchbase)", "Google Cloud Platform", "Xamarin", "UWP", "Auth0", "REST", ".NET Framework", "Jira", "GitHub"
+    };
+
+    private ProjectDetail[] _details = new ProjectDetail[] {
+        new ProjectDetail(
+            "Entering the Data",
+            "The methodology of scaling a log is a complicated process, but essentially log scalers enter information about the log, like length and diameter. This information is then used to determine how much of the log can be used. It was our job to create an application that could calculate this data in real time and store it in an efficient manner. We deployed this as a Universal Windows Platform application so that it would be accessible with the hardware they would need. I was responsible for building the UI for this application, debugging any issues, developing feature requests, and increasing performance. Since this was being used in a production environment, it was critical that I understood the issues users were experiencing and provide a timely solution.",
+            "images/TDSH.gif"),
+        new ProjectDetail(
+            "Storing the Data",
+            "Since the information needed for log scaling can change drastically, we stored the data in a NoSQL database through Couchbase. This would allow us to update schemas as needed while still handling large volumes of data. I was tasked with building, deploying, and maintaining the database. Project owners would often have questions about data and it was my role to create the queries needed to provide the answer. Queries were also required for any changes to our data model that required updates to historical data, which I was responsible for writing."
+        ),
+        new ProjectDetail(
+            "Accessing the Data",
+            "Due to the nature of the production environment, we had to allow for offline entry of data that could then be synced later on. While Couchbase offers their Sync Gateway to handle this, we still had to implement our own merge strategies for data integrity. I took the steps necessary to deploy the Sync Gateway and make it available to all users. I did this through the Google Cloud Platform . To keep the application secure, I integrated the Sync Gateway with Auth0. I diagnosed and worked through any issues that arose in our syncing process."
+        ),
+        new ProjectDetail(
+            "Organizing the Data",
+            "The information of the logs needed to be organized under different contracts, which required a separate application. This was built in Xamarin Forms to allow for the most flexibility in our deployment environment. Similar to the log entry application, I was responsible for building the UI for this application, debugging any issues, developing feature requests, and increasing performance. To track the bugs and feature requests, I initiated our use of Jira to manage communication between the clients.",
+            "images/FEMT.gif"
+        ),
+        new ProjectDetail(
+            "Testing the Data",
+            "The rules of log scaling have existed for quite some time. To ensure that our program followed those same standards, the auditing process for these applications had to be robust. I created and reported on unit tests involved with our calculations for log scaling and for our own applications stability."
+        )
     };
 }

@@ -1,0 +1,108 @@
+﻿<MudGrid>
+    @if (_current <= Breakpoint.Sm)
+    {
+        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
+        </MudItem>
+        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
+            <MudText Class="my-auto" Typo="@_titleSize"><b>@Title</b></MudText>
+        </MudItem>
+    }
+    else
+    {
+        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
+            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
+            <MudText Class="ms-5 my-auto" Typo="@_titleSize"><b>@Title</b></MudText>
+        </MudItem>
+    }
+    <MudItem xs="12">
+        <div class="d-flex flex-wrap align-center justify-center">
+            @foreach (var tech in Technologies)
+            {
+                <MudPaper Class="pa-2 ma-1 mud-theme-dark">@tech</MudPaper>
+            }
+        </div>
+    </MudItem>
+    <MudItem xs="12">
+        <MudExpansionPanels>
+            @foreach (var detail in Details)
+            {
+                <MudExpansionPanel>
+                    <TitleContent>
+                        <div class="d-flex" style=@($"font-size: {_subtitleSize}")>
+                            <b>@detail.Title</b>
+                            @if (!string.IsNullOrWhiteSpace(detail.ViewPath))
+                            {
+                                <ProjectViewButton ImagePath="@detail.ViewPath"/>
+                            }
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        @detail.Description
+                    </ChildContent>
+                </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private Guid _subscriptionId;
+    private Breakpoint _current;
+    private Typo _titleSize;
+    private string _titleJustify;
+    private string _logoJustify;
+    private string _subtitleSize;
+
+    [Inject] IBreakpointService BreakpointListener { get; set; }
+    [Parameter] public string LogoPath { get; set; } = string.Empty;
+    [Parameter] public string Title { get; set; } = "Project";
+    [Parameter] public ProjectDetail[] Details { get; set; } = Array.Empty<ProjectDetail>();
+    [Parameter] public string[] Technologies { get; set; } = Array.Empty<string>();
+    [Parameter] public Color Background { get; set; } = Color.Primary;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _current = await BreakpointListener.GetBreakpoint();
+            UpdateView();
+
+            var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+            {
+                _current = breakpoint;
+                UpdateView();
+                InvokeAsync(StateHasChanged);
+            }, new ResizeOptions
+			{
+				ReportRate = 250,
+				NotifyOnBreakpointOnly = true,
+			});
+
+            _subscriptionId = subscriptionResult.SubscriptionId;
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private void UpdateView()
+    {
+        if (_current <= Breakpoint.Sm)
+        {
+            _titleSize = Typo.h5;
+            _logoJustify = "justify-center";
+            _titleJustify = "justify-center";
+            _subtitleSize = "1.25rem";
+        }
+        else
+        {
+            _titleSize = Typo.h4;
+            _logoJustify = "justify-end";
+            _titleJustify = "justify-start";
+            _subtitleSize = "2rem";
+        }
+    }
+
+	public async ValueTask DisposeAsync() => await BreakpointListener.Unsubscribe(_subscriptionId);
+}
