@@ -1,0 +1,27 @@
+﻿@page "/truckstop"
+
+<PageTitle>Truckstop</PageTitle>
+
+<ProjectPage Title="Truckstop" LogoPath="images/truckstop.png"
+    Details="@_details" Technologies="@_technologies" Background="@Color.Success"/>
+
+@code {
+    private string[] _technologies = new string[] {
+        "C#", "ASP.NET", "REST", "OpenAPI", "AWS", "EntityFramework", "Kafka", "Kubernetes", "GitLab"
+    };
+
+    private ProjectDetail[] _details = new ProjectDetail[] {
+        new ProjectDetail(
+            "Taking Charge",
+            "With my experience that I had gathered in my previous projects, I knew that I could contribute at a high level on this project. When first starting, I found that the team I joined was understaffed. There was one person taking on architecture, management, code review, and other responsibilities while working with mostly junior developers. Once I gained the domain knowledge I needed, I began taking on as many responsibilities as I could to free up resources and increase our velocity.  This included taking over most of the code review, handling any pipeline issues that would arise, and managing developer workload. I found it incredibly rewarding to be able to use the knowledge and skills I had gathered to help our team to reach our full potential.",
+        ),
+        new ProjectDetail(
+            "An Established Environment",
+            "Coming from a small startup to a well-established company with years of development behind their product, I found the development environment to be like a breath of fresh air. Things that I had been fighting to implement in our product like testing, automated pipelines, and issue tracking were all well-established with whole departments overseeing them. I was able to gain the knowledge of how things should run, as well as looking for ways to improve things even further. My biggest takeaway was that a strong, automated testing environment with logging and alerting is critical to the success of any product."
+        ),
+        new ProjectDetail(
+            "The Power of OpenAPI",
+            "The focus of my team was working with OpenAPI (formerly called Swagger). This technology has so many benefits for working with API. The thing it is most known for is documentation. OpenAPI is able to generate documentation from ASP.NET controllers automatically. Documentation is always key, but can be difficult to maintain so anything that generates automatically is a game changer. We were also able to leverage OpenAPI to generate contract and client packages to be used by the other microservices on our project. This gave a standardized implementation across the whole product, which is can be a difficult thing to achieve in a microservice architecture."
+        )
+    };
+}

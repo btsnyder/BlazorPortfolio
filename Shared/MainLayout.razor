@@ -7,13 +7,14 @@
 <MudLayout>
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Filled.Home" Class="me-3" Color="Color.Inherit" Link="/" Target="_self" />
-        <MudText Typo=@(_current < Breakpoint.Sm ? Typo.h5 : Typo.h4)>BRANDON SNYDER</MudText>
-        @if (_current >= Breakpoint.Sm)
+        <MudText Typo=@(_current <= Breakpoint.Sm ? Typo.h6 : Typo.h4)><b>BRANDON SNYDER</b></MudText>
+        @if (_current > Breakpoint.Sm)
         {
             <MudText Typo="Typo.subtitle1" Class="ms-5">software developer</MudText>
         }
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/btsnyder/" Target="_blank" />
+        <MudIconButton Class="pa-1" Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Inherit" Link="https://www.linkedin.com/in/brandon-snyder-02192b20b/" Target="_blank" />
+        <MudIconButton Class="pa-2" Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/btsnyder/" Target="_blank" />
         <MudSwitch @bind-Checked="@_isDarkMode" ThumbIcon="@(_isDarkMode==true ? Icons.Material.Filled.ModeNight : Icons.Material.Filled.WbSunny)" ThumbIconColor="@(_isDarkMode==true ? Color.Dark : Color.Warning)"/>
     </MudAppBar>
     <MudMainContent>
@@ -21,6 +22,9 @@
             @Body
         </MudContainer>
     </MudMainContent>
+    <div class="d-flex justify-center">
+        Icons made by <a class="mx-1" href="https://www.freepik.com" title="Freepik" target="_blank">Freepik</a>
+    </div>
 </MudLayout>
 
 @code {
