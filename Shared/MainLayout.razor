@@ -7,7 +7,7 @@
 <MudLayout>
     <MudAppBar Elevation="0">
         <MudIconButton Icon="@Icons.Filled.Home" Class="me-3" Color="Color.Inherit" Link="/" Target="_self" />
-        <MudText Typo=@(_current <= Breakpoint.Sm ? Typo.h6 : Typo.h4)><b>BRANDON SNYDER</b></MudText>
+        <MudText Style="line-height: 18px" Typo=@(_current <= Breakpoint.Sm ? Typo.h6 : Typo.h4)><b>BRANDON SNYDER</b></MudText>
         @if (_current > Breakpoint.Sm)
         {
             <MudText Typo="Typo.subtitle1" Class="ms-5">software developer</MudText>
@@ -37,6 +37,34 @@
 
     MudTheme MyCustomTheme = new MudTheme()
     {
+        Palette = new Palette 
+        {
+            AppbarBackground = Colors.Green.Default,
+            Primary = Colors.Indigo.Lighten1,
+            Secondary = Colors.Red.Darken1,
+            Tertiary = Colors.BlueGrey.Default,
+            Warning = Colors.Orange.Lighten1
+        },
+        PaletteDark = new Palette
+        {
+            AppbarBackground = Colors.Green.Default,
+            Primary = Colors.Indigo.Lighten1,
+            Secondary = Colors.Red.Darken1,
+            Tertiary = Colors.BlueGrey.Default,
+            Background = Colors.Grey.Darken3,
+            DrawerBackground = Colors.Grey.Darken3,
+            DrawerText = Colors.Shades.White,
+            DrawerIcon = Colors.Shades.White,
+            BackgroundGrey = Colors.Grey.Darken1,
+            Surface = Colors.Grey.Darken3,
+            TextPrimary = Colors.Shades.White,
+            TextSecondary = Colors.Grey.Default,
+            TextDisabled = Colors.Grey.Lighten1,
+            ActionDefault = Colors.Grey.Lighten4,
+            ActionDisabled = Colors.Grey.Darken1,
+            LinesDefault = Colors.Grey.Lighten4,
+            Dark = Colors.Grey.Darken1
+        },
         Typography = new Typography()
         {
             Default = new Default()

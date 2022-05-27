@@ -1,20 +1,25 @@
 ﻿<MudGrid>
-    @if (_current <= Breakpoint.Sm)
-    {
-        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
-            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
-        </MudItem>
-        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
-            <MudText Class="my-auto" Typo="@_titleSize"><b>@Title</b></MudText>
-        </MudItem>
-    }
-    else
-    {
-        <MudItem xs="12" Class=@($"d-flex align-items-center justify-center mud-theme-{Background.ToString().ToLower()} pa-1")>
-            <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
-            <MudText Class="ms-5 my-auto" Typo="@_titleSize"><b>@Title</b></MudText>
-        </MudItem>
-    }
+    <MudItem xs="12">
+        <div class=@($"d-flex align-items-center justify-content-between mud-theme-{Background.ToString().ToLower()} pa-1")>
+            <MudIconButton Class="my-auto" Icon="@Icons.Filled.ChevronLeft" Color="@Color.Inherit" Link=@($"/{LeftTarget}") Target="_self"/>
+            @if (_current <= Breakpoint.Sm)
+            {
+                <div class="d-flex flex-column flex-grow-1 justify-center align-items-center">
+                    <MudImage Class="mx-auto" ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
+                    <MudText Class="mx-auto my-auto" Typo="@_titleSize"><b>@Title</b></MudText>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-grow-1 justify-center">
+                    <MudImage ObjectFit="@ObjectFit.Cover" Height="100" Width="100" Src="@LogoPath" Alt="Project Logo"/>
+                    <MudText Class="my-auto ms-5" Typo="@_titleSize"><b>@Title</b></MudText>
+                </div>
+            }
+            <MudIconButton Class="my-auto" Icon="@Icons.Filled.ChevronRight" Color="@Color.Inherit" Link=@($"/{RightTarget}") Target="_self"/>
+        </div>
+    
+    </MudItem>
     <MudItem xs="12">
         <div class="d-flex flex-wrap align-center justify-center">
             @foreach (var tech in Technologies)
@@ -60,6 +65,9 @@
     [Parameter] public ProjectDetail[] Details { get; set; } = Array.Empty<ProjectDetail>();
     [Parameter] public string[] Technologies { get; set; } = Array.Empty<string>();
     [Parameter] public Color Background { get; set; } = Color.Primary;
+    [Parameter] public string LeftTarget { get; set; } = string.Empty;
+    [Parameter] public string RightTarget { get; set; } = string.Empty;
+
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

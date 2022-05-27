@@ -1,0 +1,17 @@
+﻿@page "/dmadvantage"
+
+<PageTitle>DM Advantage</PageTitle>
+
+<ProjectPage Title="DM Advantage" LogoPath="images/sword.png" LeftTarget="truckstop" RightTarget="lumber"
+    Technologies="@_technologies" Background="@Color.Info"/>
+
+<MudButton Class="d-flex mx-auto mb-auto" Color="@Color.Info" Style="font-size: 25px; max-width: 500px;" StartIcon="@Icons.Filled.RemoveRedEye"
+    Variant="@Variant.Filled" Size="@Size.Large" Link="https://github.com/btsnyder/DMAdvantage" Target="_blank">
+    View Code
+</MudButton>
+
+@code {
+    private string[] _technologies = new string[] {
+        "C#", "ASP.NET", "Blazor", "REST", "EntityFramework", "Kafka", "GitHub"
+    };
+}
